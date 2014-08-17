@@ -1,0 +1,27 @@
+{
+  "name": "pnger",
+  "version": "0.1.0",
+  "description": "lossy png compression and optimization for linux, win, mac",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ruffrey/pnger"
+  },
+  "keywords": [
+    "png",
+    "compression",
+    "optimize",
+    "image",
+    "pngquant",
+    "optipng"
+  ],
+  "author": "jeffhparrish@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ruffrey/pnger/issues"
+  },
+  "homepage": "https://github.com/ruffrey/pnger"
+}
