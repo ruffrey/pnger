@@ -1,5 +1,7 @@
 # pgner
 
+[![NPM version](https://badge.fury.io/js/pnger.svg)](http://badge.fury.io/js/pnger)
+
 PNG compression and optimization for Node.js, from a base64 buffer, on windows, linux, mac.
 
 ## Installing
