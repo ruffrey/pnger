@@ -5,17 +5,10 @@ var path = require('path');
 var exec = require('exec');
 var async = require('async');
 
-var pngquant = "";
-var optipng = "";
-
-
 var platform_folder = process.platform + (process.platform === 'linux' ? "/" + process.arch : "");
 
-pngquant = path.join(__dirname, 'pngquant', platform_folder, process.platform === 'win32' ? 'pngquant.exe' : 'pngquant');
-optipng = path.join(__dirname, 'optipng', platform_folder, process.platform === 'win32' ? 'optipng.exe' : 'optipng');
-
-args_pngquant.unshift(pngquant);
-args_optipng.unshift(optipng);
+var pngquant = path.join(__dirname, 'pngquant', platform_folder, process.platform === 'win32' ? 'pngquant.exe' : 'pngquant');
+var optipng = path.join(__dirname, 'optipng', platform_folder, process.platform === 'win32' ? 'optipng.exe' : 'optipng');
 
 /**
  * # pnger
@@ -52,11 +45,11 @@ function pnger(settings, callback) {
 	if (typeof settings !== 'object') {
 		return callback(new Error("pnger settings not an object"));
 	}
-	if (typeof settings.buffer !== 'string') {
-		return callback(new Error("pnger settings.buffer is missing"));
+	if (!(settings.buffer instanceof Buffer)) {
+		return callback(new Error("pnger settings.buffer is missing or invalid"));
 	}
 	if (typeof settings.output !== 'string') {
-		return callback(new Error("pnger settings.output is missing"));
+		return callback(new Error("pnger settings.output is not a string"));
 	}
 
 	var args_pngquant = [
@@ -69,6 +62,8 @@ function pnger(settings, callback) {
 		'-clobber',
 		'-o', settings.optimize || 3 // optimize
 	];
+	args_pngquant.unshift(pngquant);
+	args_optipng.unshift(optipng);
 
 	var pngbase64Buffer = settings.buffer;
 	var outputPath = settings.output;
