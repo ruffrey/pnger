@@ -31,7 +31,7 @@ PNG compression and optimization for Node.js, from a base64 buffer, on windows, 
 
 ## Options
 
-See [source jsdoc on settings](/blob/master/index.js).
+See [source jsdoc on settings](/index.js).
 
 ## nodewebkit support
 
