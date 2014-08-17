@@ -1,10 +1,14 @@
 {
   "name": "pnger",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "lossy png compression and optimization for linux, win, mac",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "exec": "^0.1.2"
   },
   "repository": {
     "type": "git",
@@ -18,6 +22,7 @@
     "pngquant",
     "optipng"
   ],
+
   "author": "jeffhparrish@gmail.com",
   "license": "MIT",
   "bugs": {
