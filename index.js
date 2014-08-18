@@ -2,8 +2,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var exec = require('exec');
-var async = require('async');
+var execFile = require('child_process').execFile;
 
 var platform_folder = process.platform + (process.platform === 'linux' ? "/" + process.arch : "");
 
@@ -62,8 +61,11 @@ function pnger(settings, callback) {
 		'-clobber',
 		'-o', settings.optimize || 3 // optimize
 	];
-	args_pngquant.unshift(pngquant);
-	args_optipng.unshift(optipng);
+
+	var twoMinutes = 2 * 60 * 1000;
+	var cpOptions = {
+		timeout: twoMinutes
+	};
 
 	var pngbase64Buffer = settings.buffer;
 	var outputPath = settings.output;
@@ -71,28 +73,46 @@ function pnger(settings, callback) {
 	var tempPath = outputPath.replace('.png', '-tmp.png');
 	var minifiedPath = outputPath.replace('.png', '-min.png');
 
+	var next = function (err, arg) {
+		if (!queue.length) {
+			callback(err, arg);
+			removeTemp(handleErr);
+			removeMin(handleErr);
+			return;
+		}
+		var fn = queue.shift();
+		fn(next);
+	};
 
-	async.waterfall([
+	var queue = [
 		function writeTemp(cb) {
 			fs.writeFile(tempPath, pngbase64Buffer, cb);
 		},
 		function minify(cb) {
-			exec(args_pngquant.concat(['-f', '-o', minifiedPath, tempPath]), function (err, out, code) {
-				cb(err);
-			});
-		},
-		function removeTemp(cb) {
-			fs.unlink(tempPath, cb);
+			var fullArgs = args_pngquant.concat(['-f', '-o', minifiedPath, tempPath]);
+			execFile(pngquant, fullArgs, cpOptions, cb);
 		},
 		function optimize(cb) {
-			exec(args_optipng.concat(['-out', outputPath, minifiedPath]), function (err, out, code) {
-				cb(err);
-			});
-		},
-		function removeMin(cb) {
-			fs.unlink(minifiedPath, cb);
+			var fullArgs = args_optipng.concat(['-out', outputPath, minifiedPath]);
+			execFile(optipng, fullArgs, cpOptions, cb);
 		}
-	], callback);
+	];
+
+	function removeTemp(cb) {
+		fs.unlink(tempPath, cb);
+	}
+
+	function removeMin(cb) {
+		fs.unlink(minifiedPath, cb);
+	}
+
+	function handleErr(err) {
+		if (err) {
+			console.error(err);
+		}
+	}
+
+	next();
 
 }
 exports = module.exports = pnger;
