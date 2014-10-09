@@ -9,27 +9,29 @@ PNG compression and optimization for Node.js, from a base64 buffer, on windows, 
 	npm install pnger
 
 ## Usage
-	
-	var pnger = require('pnger');
-	var saveFilePath = __dirname + '/myfile.png';
-	
-	var options = {
-		// required
-		buffer: myBase64Utf8PngBuffer,
-		output: saveFilePath
 
-		// optional
-		quality: '60-80', // '0-100'
-		speed: '5', // between 0 and 10
-		optimize: '3' // between 1 and 7
-	};
+```javascript
+var pnger = require('pnger');
+var saveFilePath = __dirname + '/myfile.png';
+	
+var options = {
+	// required
+	buffer: myBase64Utf8PngBuffer,
+	output: saveFilePath
 
-	pnger(options, function (err) {
-		if (err) {
-			console.error(err);
-		}
-		// your file is saved at saveFilePath
-	});
+	// optional
+	quality: '60-80', // '0-100'
+	speed: '5', // between 0 and 10
+	optimize: '3' // between 1 and 7
+};
+
+pnger(options, function (err) {
+	if (err) {
+		console.error(err);
+	}
+	// your file is saved at saveFilePath
+});
+```
 
 ## Options
 
@@ -41,7 +43,7 @@ Tested cross platform on nodewebkit.
 
 ## Build platform
 
-pnger builds on any platform, runs on any platform. Some png libraries must be built on the deployment platform.
+pnger builds on any platform, runs on any platform. So it can be prebuilt on your mac and deployed elsewhere.
 
 
 ## License
