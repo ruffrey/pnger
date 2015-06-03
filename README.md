@@ -13,7 +13,7 @@ PNG compression and optimization for Node.js, from a base64 buffer, on windows, 
 ```javascript
 var pnger = require('pnger');
 var saveFilePath = __dirname + '/myfile.png';
-	
+
 var options = {
 	// required
 	buffer: myBase64Utf8PngBuffer,
@@ -22,7 +22,9 @@ var options = {
 	// optional
 	quality: '60-80', // '0-100'
 	speed: '5', // between 0 and 10
-	optimize: '3' // between 1 and 7
+	optimize: '3', // between 1 and 7
+
+	uid: 0
 };
 
 pnger(options, function (err) {
