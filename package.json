@@ -1,6 +1,6 @@
 {
   "name": "pnger",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "lossy png compression and optimization for linux, win, mac",
   "main": "index.js",
   "dependencies": {},
