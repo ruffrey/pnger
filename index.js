@@ -11,11 +11,11 @@ var optipng = path.join(__dirname, 'optipng', platform_folder, process.platform 
 
 /**
  * # pnger
- * 
+ *
  * Cross platform lossy compression and optimization for PNG images.
- * 
+ *
  * Regarding the `optimize` setting:
- * 
+ *
  * 		1 - 1 trial
  *		2 - 8 trials
  *		3 - 16 trials
@@ -23,22 +23,23 @@ var optipng = path.join(__dirname, 'optipng', platform_folder, process.platform 
  *		5 - 48 trials
  *		6 - 120 trials
  *		7 - 240 trials
- * 
+ *
  * Further reading:
- * 
+ *
  * 		* http://pngquant.org/#manual
  *		* https://github.com/kevva/imagemin-optipng#optimizationlevel
  *		* http://optipng.sourceforge.net/optipng-0.7.5.man.pdf
- * 	
- * 
+ *
+ *
  * @param {object} settings
  * @param {string} settings.buffer - Required. A base64 UTF8 buffer of the PNG image.
  * @param {string} settings.output - Required. File path with filename where the image will be saved.
  * @param {string} settings.quality='60-80' - Optional. Range `'0-100'` of output png quality. Give it a spread of at least `15`.
  * @param {number} settings.speed=5 - Optional. Number `0` through `10` where `10` is fastest and reduces quality.
  * @param {number} settings.optimize=3 - Optional. Number `1` through `7` where `7` is insanely slow.
+ * @param {number} settings.uid - Optional. Spawn the process under this uid.
  * @param {function} callback - With a single `err` argument indicating if an error occurred.
- * 
+ *
  */
 function pnger(settings, callback) {
 	if (typeof settings !== 'object') {
@@ -56,8 +57,8 @@ function pnger(settings, callback) {
 		'--speed', settings.speed || 5 // speed
 	];
 	var args_optipng = [
-		'-strip', 'all', 
-		'-quiet', 
+		'-strip', 'all',
+		'-quiet',
 		'-clobber',
 		'-o', settings.optimize || 3 // optimize
 	];
@@ -66,6 +67,10 @@ function pnger(settings, callback) {
 	var cpOptions = {
 		timeout: twoMinutes
 	};
+	if (settings.uid) {
+		cpOptions.uid = settings.uid;
+		delete settings.uid;
+	}
 
 	var pngbase64Buffer = settings.buffer;
 	var outputPath = settings.output;
