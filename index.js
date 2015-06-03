@@ -67,7 +67,7 @@ function pnger(settings, callback) {
 	var cpOptions = {
 		timeout: twoMinutes
 	};
-	if (settings.uid) {
+	if (typeof settings.uid !== 'undefined') {
 		cpOptions.uid = settings.uid;
 		delete settings.uid;
 	}
