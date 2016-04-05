@@ -17,7 +17,7 @@ var saveFilePath = __dirname + '/myfile.png';
 var options = {
 	// required
 	buffer: myBase64Utf8PngBuffer,
-	output: saveFilePath
+	output: saveFilePath,
 
 	// optional
 	quality: '60-80', // '0-100'
